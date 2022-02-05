@@ -20,6 +20,15 @@ public class RestaurantService {
     }
 
     public Restaurant resisterRestaurant(RestaurantDto restaurantDto) {
+        int minOrderPrice = restaurantDto.getMinOrderPrice();
+        int deliveryFee = restaurantDto.getDeliveryFee();
+
+        if ((minOrderPrice > 100000 || minOrderPrice < 1000) || minOrderPrice%100 != 0) {
+            throw new RuntimeException();
+        }
+        if ((deliveryFee > 10000 || deliveryFee < 0) || deliveryFee%500 != 0) {
+            throw new RuntimeException();
+        }
         Restaurant restaurant = Restaurant.builder()
                 .name(restaurantDto.getName())
                 .minOrderPrice(restaurantDto.getMinOrderPrice())
