@@ -267,9 +267,11 @@ class FoodIntegrationTest {
         void test3() throws JsonProcessingException {
             // given
             List<FoodDto> foodsRequest = new ArrayList<>();
-            // 음식1 추가
+            // 음식2 추가 (음식명: "치즈 감자튀김")
             foodsRequest.add(food2);
+            // 음식3 추가 (음식명: "쉐이크")
             foodsRequest.add(food3);
+            // 음식2 중복 추가 (음식명: "치즈 감자튀김")
             foodsRequest.add(food2);
 
             String requestBody = mapper.writeValueAsString(foodsRequest);
@@ -315,6 +317,7 @@ class FoodIntegrationTest {
             // 음식점1에 등록되어 있는 음식1 을 음식점2에 추가
             foodsRequest.add(food1);
 
+
             String foodRequestBody = mapper.writeValueAsString(foodsRequest);
             HttpEntity<String> foodRequest = new HttpEntity<>(foodRequestBody, headers);
 
@@ -347,6 +350,7 @@ class FoodIntegrationTest {
                             .build()
             );
 
+
             String requestBody = mapper.writeValueAsString(foodsRequest);
             HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
@@ -378,6 +382,7 @@ class FoodIntegrationTest {
                             .build()
             );
 
+
             String requestBody = mapper.writeValueAsString(foodsRequest);
             HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
@@ -408,6 +413,7 @@ class FoodIntegrationTest {
                             .price(770)
                             .build()
             );
+
 
             String requestBody = mapper.writeValueAsString(foodsRequest);
             HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
