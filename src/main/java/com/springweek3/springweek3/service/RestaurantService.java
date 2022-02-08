@@ -4,6 +4,7 @@ import com.springweek3.springweek3.dto.RestaurantDto;
 import com.springweek3.springweek3.dto.RestaurantResponseDto;
 import com.springweek3.springweek3.model.Restaurant;
 import com.springweek3.springweek3.repository.RestaurantRepository;
+import com.springweek3.springweek3.validator.RestaurantValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerErrorException;
@@ -21,15 +22,7 @@ public class RestaurantService {
     }
 
     public RestaurantResponseDto resisterRestaurant(RestaurantDto restaurantDto) {
-        int minOrderPrice = restaurantDto.getMinOrderPrice();
-        int deliveryFee = restaurantDto.getDeliveryFee();
-
-        if ((minOrderPrice > 100000 || minOrderPrice < 1000) || minOrderPrice%100 != 0) {
-            throw new RuntimeException();
-        }
-        if ((deliveryFee > 10000 || deliveryFee < 0) || deliveryFee%500 != 0) {
-            throw new RuntimeException();
-        }
+        RestaurantValidator.restaurantInputValidator(restaurantDto);
         return restaurantRepository.save(restaurantDto.toEntity()).toRestaurantResponseDto();
     }
 
