@@ -14,12 +14,16 @@ public class RestaurantDto {
     private String name;
     private int minOrderPrice;
     private int deliveryFee;
+    private int x;
+    private int y;
 
     public Restaurant toEntity() {
         return Restaurant.builder()
                 .name(name)
                 .deliveryFee(deliveryFee)
                 .minOrderPrice(minOrderPrice)
+                .x(x)
+                .y(y)
                 .build();
     }
 

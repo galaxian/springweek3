@@ -29,12 +29,18 @@ public class Restaurant {
     @Column(nullable = false)
     private int deliveryFee;
 
-    public RestaurantResponseDto toRestaurantResponseDto() {
+    @Column
+    private int x;
+
+    @Column
+    private int y;
+
+    public RestaurantResponseDto toRestaurantResponseDto(int plus) {
         return RestaurantResponseDto.builder()
                 .id(this.id)
                 .name(this.name)
                 .minOrderPrice(this.minOrderPrice)
-                .deliveryFee(this.deliveryFee)
+                .deliveryFee(this.deliveryFee + plus)
                 .build();
     }
 

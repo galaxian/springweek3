@@ -4,6 +4,7 @@ import com.springweek3.springweek3.dto.OrderDto;
 import com.springweek3.springweek3.dto.OrderRequestDto;
 import com.springweek3.springweek3.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public class OrderController {
     }
 
     @PostMapping("/order/request")
-    public OrderDto addOrder(@RequestBody OrderRequestDto orderRequestDto) {
-        return orderService.addOrder(orderRequestDto);
+    public ResponseEntity<OrderDto> addOrder(@RequestBody OrderRequestDto orderRequestDto) {
+        return ResponseEntity.ok()
+                .body(orderService.addOrder(orderRequestDto));
     }
 
     @GetMapping("/orders")
