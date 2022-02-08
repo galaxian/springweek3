@@ -4,6 +4,7 @@ import com.springweek3.springweek3.dto.RestaurantDto;
 import com.springweek3.springweek3.dto.RestaurantResponseDto;
 import com.springweek3.springweek3.model.Restaurant;
 import com.springweek3.springweek3.repository.RestaurantRepository;
+import com.springweek3.springweek3.validator.DeliveryValidator;
 import com.springweek3.springweek3.validator.RestaurantValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,9 @@ public class RestaurantService {
         for (Restaurant restaurant : restaurantList) {
             RestaurantResponseDto restaurantResponseDto = restaurant.toRestaurantResponseDto(Math.abs((restaurant.getX() + restaurant.getY()) - (x+y) ));
 
-            if(Math.abs((restaurant.getX() + restaurant.getY()) - (x+y) ) <= 3) {
-                restaurantResponseDtoList.add(restaurantResponseDto);
-            }
+            DeliveryValidator.deliveryInputValidator(restaurant, x, y);
+
+            restaurantResponseDtoList.add(restaurantResponseDto);
         }
         return restaurantResponseDtoList;
     }
