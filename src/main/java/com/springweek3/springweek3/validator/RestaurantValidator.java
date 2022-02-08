@@ -21,7 +21,7 @@ public class RestaurantValidator {
         }
 
         if (deliveryFee%500 != 0) {
-            throw new RuntimeException("배달비는 500원 단위로 입력가능합니다.");
+            throw new IllegalArgumentException("배달비는 500원 단위로 입력가능합니다.");
         }
     }
 }

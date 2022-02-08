@@ -5,6 +5,7 @@ import com.springweek3.springweek3.model.Food;
 import com.springweek3.springweek3.model.Restaurant;
 import com.springweek3.springweek3.repository.FoodRepository;
 import com.springweek3.springweek3.repository.RestaurantRepository;
+import com.springweek3.springweek3.validator.FoodValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +30,12 @@ public class FoodService {
                 () -> new NullPointerException("")
         );
         for (FoodDto foodDto : foodDtoList) {
-            String name = foodDto.getName();
-            int price = foodDto.getPrice();
-            if (price < 100 || price > 1000000 || price % 100 != 0) {
-                throw new RuntimeException();
-            }
-            Optional<Food> checkFood = foodRepository.findByRestaurantAndName(restaurant, name);
+
+            FoodValidator.foodInputValidator(foodDto, restaurant);
+
+            Optional<Food> checkFood = foodRepository.findByRestaurantAndName(restaurant, foodDto.getName());
             if (checkFood.isPresent()) {
-                throw new RuntimeException();
+                throw new IllegalArgumentException();
             }
 
             foodRepository.save(foodDto.toEntity(restaurant)).toResponseFoodDto();
