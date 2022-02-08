@@ -1,6 +1,7 @@
 package com.springweek3.springweek3.service;
 
 import com.springweek3.springweek3.dto.RestaurantDto;
+import com.springweek3.springweek3.dto.RestaurantResponseDto;
 import com.springweek3.springweek3.model.Restaurant;
 import com.springweek3.springweek3.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Restaurant resisterRestaurant(RestaurantDto restaurantDto) {
+    public RestaurantResponseDto resisterRestaurant(RestaurantDto restaurantDto) {
         int minOrderPrice = restaurantDto.getMinOrderPrice();
         int deliveryFee = restaurantDto.getDeliveryFee();
 
@@ -29,12 +30,7 @@ public class RestaurantService {
         if ((deliveryFee > 10000 || deliveryFee < 0) || deliveryFee%500 != 0) {
             throw new RuntimeException();
         }
-        Restaurant restaurant = Restaurant.builder()
-                .name(restaurantDto.getName())
-                .minOrderPrice(restaurantDto.getMinOrderPrice())
-                .deliveryFee(restaurantDto.getDeliveryFee())
-                .build();
-        return restaurantRepository.save(restaurant);
+        return restaurantRepository.save(restaurantDto.toEntity()).toRestaurantResponseDto();
     }
 
     public List<Restaurant> getRestaurant() {

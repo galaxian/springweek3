@@ -39,18 +39,12 @@ public class FoodService {
                 throw new RuntimeException();
             }
 
-            Food food = Food.builder()
-                    .restaurant(restaurant)
-                    .name(name)
-                    .price(price)
-                    .build();
-
-            foodRepository.save(food);
+            foodRepository.save(foodDto.toEntity(restaurant)).toResponseFoodDto();
         }
     }
 
     public List<Food> getFoods(Long restaurantId) {
-        List<Food> foodList = foodRepository.findByRestaurantId(restaurantId);
+        List<Food> foodList = foodRepository.findAllByRestaurantId(restaurantId);
         List<Food> responseFoodList = new ArrayList<>();
         for (Food food : foodList) {
             responseFoodList.add(Food.builder()

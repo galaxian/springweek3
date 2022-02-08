@@ -1,6 +1,7 @@
 package com.springweek3.springweek3.controller;
 
 import com.springweek3.springweek3.dto.RestaurantDto;
+import com.springweek3.springweek3.dto.RestaurantResponseDto;
 import com.springweek3.springweek3.model.Restaurant;
 import com.springweek3.springweek3.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class RestaurantController {
     }
 
     @PostMapping("/restaurant/register")
-    public Restaurant resisterRestaurant(@RequestBody RestaurantDto restaurantDto) {
+    public RestaurantResponseDto resisterRestaurant(@RequestBody RestaurantDto restaurantDto) {
         return restaurantService.resisterRestaurant(restaurantDto);
     }
 
