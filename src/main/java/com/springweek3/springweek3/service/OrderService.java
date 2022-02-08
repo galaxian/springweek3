@@ -12,6 +12,7 @@ import com.springweek3.springweek3.repository.FoodOrderRepository;
 import com.springweek3.springweek3.repository.FoodRepository;
 import com.springweek3.springweek3.repository.OrderSheetRepository;
 import com.springweek3.springweek3.repository.RestaurantRepository;
+import com.springweek3.springweek3.validator.OrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +55,7 @@ public class OrderService {
         int sumPrice = 0;
         for(FoodOrderRequestDto foodOrderRequestDto: orderRequestDto.getFoods()) {
 
-            if (foodOrderRequestDto.getQuantity() < 1 || foodOrderRequestDto.getQuantity() > 100) {
-                throw new IllegalArgumentException("");
-            }
+            OrderValidator.orderInputQuantityValidator(foodOrderRequestDto);
 
             Food food = foodRepository.findById(foodOrderRequestDto.getId()).orElseThrow(
                     () -> new IllegalArgumentException("")
@@ -79,9 +78,7 @@ public class OrderService {
             sumPrice += foodOrderDto.getPrice();
         }
 
-        if (sumPrice < restaurant.getMinOrderPrice()) {
-            throw new IllegalArgumentException("");
-        }
+        OrderValidator.orderInputPriceValidator(sumPrice, restaurant);
 
         OrderSheet orderSheet = OrderSheet.builder()
                 .restaurant(restaurant)
