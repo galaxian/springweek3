@@ -7,7 +7,6 @@ import com.springweek3.springweek3.repository.RestaurantRepository;
 import com.springweek3.springweek3.validator.RestaurantValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ServerErrorException;
 
 import java.util.List;
 

@@ -2,14 +2,12 @@ package com.springweek3.springweek3.model;
 
 import com.springweek3.springweek3.dto.FoodOrderDto;
 import com.springweek3.springweek3.dto.OrderDto;
-import com.springweek3.springweek3.dto.OrderRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder

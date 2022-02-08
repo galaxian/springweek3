@@ -1,10 +1,7 @@
 package com.springweek3.springweek3.controller;
 
-import com.springweek3.springweek3.dto.FoodOrderDto;
-import com.springweek3.springweek3.dto.FoodOrderRequestDto;
 import com.springweek3.springweek3.dto.OrderDto;
 import com.springweek3.springweek3.dto.OrderRequestDto;
-import com.springweek3.springweek3.model.OrderSheet;
 import com.springweek3.springweek3.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

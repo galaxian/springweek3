@@ -1,7 +1,6 @@
 package com.springweek3.springweek3.controller;
 
 import com.springweek3.springweek3.dto.FoodDto;
-import com.springweek3.springweek3.dto.RestaurantDto;
 import com.springweek3.springweek3.model.Food;
 import com.springweek3.springweek3.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;

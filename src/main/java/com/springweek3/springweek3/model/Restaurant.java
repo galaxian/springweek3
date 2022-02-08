@@ -1,6 +1,5 @@
 package com.springweek3.springweek3.model;
 
-import com.springweek3.springweek3.dto.RestaurantDto;
 import com.springweek3.springweek3.dto.RestaurantResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

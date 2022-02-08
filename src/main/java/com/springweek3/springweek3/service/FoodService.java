@@ -27,7 +27,7 @@ public class FoodService {
     @Transactional
     public void addFoods(Long restaurantId, List<FoodDto> foodDtoList) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
-                () -> new NullPointerException("")
+                () -> new NullPointerException("찾으시는 식당이 존재하지 않습니다.")
         );
         for (FoodDto foodDto : foodDtoList) {
 
@@ -35,7 +35,7 @@ public class FoodService {
 
             Optional<Food> checkFood = foodRepository.findByRestaurantAndName(restaurant, foodDto.getName());
             if (checkFood.isPresent()) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("이미 등록되어있는 음식입니다.");
             }
 
             foodRepository.save(foodDto.toEntity(restaurant)).toResponseFoodDto();

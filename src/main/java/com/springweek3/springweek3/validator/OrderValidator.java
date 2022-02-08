@@ -14,7 +14,7 @@ public class OrderValidator {
     public static void orderInputPriceValidator(int sumPrice, Restaurant restaurant) {
 
         if (sumPrice < restaurant.getMinOrderPrice()) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("음식 값이 식당의 최소 주문비용보다 낮아 주문할 수 없습니다.");
         }
     }
 }

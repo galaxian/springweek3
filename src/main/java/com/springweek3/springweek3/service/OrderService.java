@@ -45,7 +45,7 @@ public class OrderService {
     public OrderDto addOrder(OrderRequestDto orderRequestDto) {
 
         Restaurant restaurant = restaurantRepository.findById(orderRequestDto.getRestaurantId()).orElseThrow(
-                () -> new IllegalArgumentException("")
+                () -> new IllegalArgumentException("찾으시는 식당이 존재하지 않습니다.")
         );
 
         List<FoodOrderDto> foodOrderDtoList = new ArrayList<>();
@@ -58,20 +58,12 @@ public class OrderService {
             OrderValidator.orderInputQuantityValidator(foodOrderRequestDto);
 
             Food food = foodRepository.findById(foodOrderRequestDto.getId()).orElseThrow(
-                    () -> new IllegalArgumentException("")
+                    () -> new IllegalArgumentException("찾으시는 음식이 존재하지 않습니다.")
             );
 
-            FoodOrder foodOrder = FoodOrder.builder()
-                    .quantity(foodOrderRequestDto.getQuantity())
-                    .food(food)
-                    .price(food.getPrice() * foodOrderRequestDto.getQuantity())
-                    .build();
+            FoodOrder foodOrder = foodOrderRequestDto.toEntity(food);
 
-            FoodOrderDto foodOrderDto = FoodOrderDto.builder()
-                    .name(foodOrder.getFood().getName())
-                    .quantity(foodOrder.getQuantity())
-                    .price(foodOrder.getPrice())
-                    .build();
+            FoodOrderDto foodOrderDto = foodOrder.toResponseDto();
 
             foodOrderDtoList.add(foodOrderDto);
             foodOrderList.add(foodOrder);
@@ -80,32 +72,18 @@ public class OrderService {
 
         OrderValidator.orderInputPriceValidator(sumPrice, restaurant);
 
-        OrderSheet orderSheet = OrderSheet.builder()
-                .restaurant(restaurant)
-                .totalPrice(sumPrice + restaurant.getDeliveryFee())
-                .build();
+        OrderSheet orderSheet = orderRequestDto.toEntity(restaurant, sumPrice + restaurant.getDeliveryFee());
 
         orderSheetRepository.save(orderSheet);
 
         for (FoodOrder foodOrder : foodOrderList) {
-            foodOrder = FoodOrder.builder()
-                    .id(foodOrder.getId())
-                    .food(foodOrder.getFood())
-                    .quantity(foodOrder.getQuantity())
-                    .price(foodOrder.getPrice())
-                    .orderSheet(orderSheet)
-                    .build();
+            foodOrder = foodOrder.toFoodOrder(orderSheet);
             foodOrders.add(foodOrder);
         }
 
         foodOrderRepository.saveAll(foodOrders);
 
-        OrderDto orderDto = OrderDto.builder()
-                .restaurantName(orderSheet.getRestaurant().getName())
-                .foods(foodOrderDtoList)
-                .deliveryFee(orderSheet.getRestaurant().getDeliveryFee())
-                .totalPrice(orderSheet.getTotalPrice())
-                .build();
+        OrderDto orderDto = orderSheet.toResponseDto(foodOrderDtoList);
 
         return orderDto;
 
@@ -118,22 +96,13 @@ public class OrderService {
         List<OrderDto> orderDtoList = new ArrayList<>();
 
         for (FoodOrder foodOrder : foodOrderList) {
-            FoodOrderDto foodOrderDto = FoodOrderDto.builder()
-                    .price(foodOrder.getPrice())
-                    .name(foodOrder.getFood().getName())
-                    .quantity(foodOrder.getQuantity())
-                    .build();
+            FoodOrderDto foodOrderDto = foodOrder.toResponseDto();
             foodOrderDtoList.add(foodOrderDto);
         }
 
 
         for (OrderSheet orderSheet : orderSheetList) {
-            OrderDto orderDto = OrderDto.builder()
-                    .restaurantName(orderSheet.getRestaurant().getName())
-                    .foods(foodOrderDtoList)
-                    .deliveryFee(orderSheet.getRestaurant().getDeliveryFee())
-                    .totalPrice(orderSheet.getTotalPrice())
-                    .build();
+            OrderDto orderDto = orderSheet.toResponseDto(foodOrderDtoList);
             orderDtoList.add(orderDto);
         }
 
