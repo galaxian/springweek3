@@ -23,5 +23,13 @@ public class RestaurantValidator {
         if (deliveryFee%500 != 0) {
             throw new IllegalArgumentException("배달비는 500원 단위로 입력가능합니다.");
         }
+
+        if (restaurantDto.getX() < 0 || restaurantDto.getY() < 0) {
+            throw new IllegalArgumentException("존재하지 않는 지역입니다.");
+        }
+
+        if (restaurantDto.getX() > 99 || restaurantDto.getY() > 99) {
+            throw new IllegalArgumentException("존재하지 않는 지역입니다.");
+        }
     }
 }

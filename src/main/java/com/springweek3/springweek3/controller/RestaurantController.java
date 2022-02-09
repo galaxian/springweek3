@@ -4,6 +4,7 @@ import com.springweek3.springweek3.dto.RestaurantDto;
 import com.springweek3.springweek3.dto.RestaurantResponseDto;
 import com.springweek3.springweek3.model.Restaurant;
 import com.springweek3.springweek3.service.RestaurantService;
+import com.springweek3.springweek3.validator.DeliveryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public List<RestaurantResponseDto> getRestaurant(@RequestParam int x, @RequestParam int y) {
-        return restaurantService.getRestaurant(x, y);
+    public ResponseEntity<List<RestaurantResponseDto>> getRestaurant(@RequestParam(value = "x", defaultValue = "0") int x, @RequestParam(value = "y", defaultValue = "0") int y) {
+        return ResponseEntity.ok().body(restaurantService.getRestaurant(x, y));
     }
 
 }

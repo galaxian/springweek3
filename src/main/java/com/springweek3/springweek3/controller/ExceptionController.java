@@ -10,4 +10,9 @@ public class ExceptionController {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> BadRequestException(final IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(ex);    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Object> NullPointerException(final NullPointerException e) {
+        return ResponseEntity.badRequest().build();
+    }
 }

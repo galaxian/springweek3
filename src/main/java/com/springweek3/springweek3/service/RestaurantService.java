@@ -9,6 +9,7 @@ import com.springweek3.springweek3.validator.RestaurantValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    @Transactional
     public RestaurantResponseDto resisterRestaurant(RestaurantDto restaurantDto) {
         RestaurantValidator.restaurantInputValidator(restaurantDto);
         return restaurantRepository.save(restaurantDto.toEntity()).toRestaurantResponseDto(0);
@@ -30,13 +32,15 @@ public class RestaurantService {
     public List<RestaurantResponseDto> getRestaurant(int x, int y) {
         List<RestaurantResponseDto> restaurantResponseDtoList = new ArrayList<>();
         List<Restaurant> restaurantList = restaurantRepository.findAll();
+
         for (Restaurant restaurant : restaurantList) {
-            RestaurantResponseDto restaurantResponseDto = restaurant.toRestaurantResponseDto(Math.abs((restaurant.getX() + restaurant.getY()) - (x+y) ));
-
-            DeliveryValidator.deliveryInputValidator(restaurant, x, y);
-
-            restaurantResponseDtoList.add(restaurantResponseDto);
+            if (DeliveryValidator.deliveryInputValidator(restaurant, x, y) == 1) {
+                RestaurantResponseDto restaurantResponseDto = restaurant.toRestaurantResponseDto(500 * Math.abs((restaurant.getX() + restaurant.getY()) - (x + y)));
+                restaurantResponseDtoList.add(restaurantResponseDto);
+            }
         }
+
+        DeliveryValidator.userLocationValidator(x, y);
         return restaurantResponseDtoList;
     }
 }

@@ -41,6 +41,8 @@ public class Restaurant {
                 .name(this.name)
                 .minOrderPrice(this.minOrderPrice)
                 .deliveryFee(this.deliveryFee + plus)
+                .x(this.x)
+                .y(this.y)
                 .build();
     }
 
