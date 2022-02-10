@@ -24,6 +24,7 @@ public class FoodService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    // 음식 등록
     @Transactional
     public void addFoods(Long restaurantId, List<FoodDto> foodDtoList) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
@@ -31,8 +32,10 @@ public class FoodService {
         );
         for (FoodDto foodDto : foodDtoList) {
 
+            // 음식 유효성 검사
             FoodValidator.foodInputValidator(foodDto, restaurant);
 
+            // 이미 등록된 음식인지 확인
             Optional<Food> checkFood = foodRepository.findByRestaurantAndName(restaurant, foodDto.getName());
             if (checkFood.isPresent()) {
                 throw new IllegalArgumentException("이미 등록되어있는 음식입니다.");
@@ -42,6 +45,7 @@ public class FoodService {
         }
     }
 
+    // 음식 조회
     public List<Food> getFoods(Long restaurantId) {
         List<Food> foodList = foodRepository.findAllByRestaurantId(restaurantId);
         List<Food> responseFoodList = new ArrayList<>();

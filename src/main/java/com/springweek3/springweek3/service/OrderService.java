@@ -41,6 +41,7 @@ public class OrderService {
     }
 
 
+    // 주문하기
     @Transactional
     public OrderDto addOrder(OrderRequestDto orderRequestDto) {
 
@@ -55,6 +56,7 @@ public class OrderService {
         int sumPrice = 0;
         for(FoodOrderRequestDto foodOrderRequestDto: orderRequestDto.getFoods()) {
 
+            // 주문 수량 유효성 검사
             OrderValidator.orderInputQuantityValidator(foodOrderRequestDto);
 
             Food food = foodRepository.findById(foodOrderRequestDto.getId()).orElseThrow(
@@ -70,6 +72,7 @@ public class OrderService {
             sumPrice += foodOrderDto.getPrice();
         }
 
+        // 주문 가격 유효성 검사
         OrderValidator.orderInputPriceValidator(sumPrice, restaurant);
 
         OrderSheet orderSheet = orderRequestDto.toEntity(restaurant, sumPrice + restaurant.getDeliveryFee());
@@ -89,6 +92,7 @@ public class OrderService {
 
     }
 
+    // 메뉴 조회
     public List<OrderDto> getOrders() {
         List<OrderSheet> orderSheetList = orderSheetRepository.findAll();
         List<FoodOrder> foodOrderList = foodOrderRepository.findAll();

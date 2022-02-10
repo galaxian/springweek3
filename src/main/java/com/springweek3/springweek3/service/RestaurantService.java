@@ -23,23 +23,28 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    // 식당 등록
     @Transactional
     public RestaurantResponseDto resisterRestaurant(RestaurantDto restaurantDto) {
+        //식당 유효성 검사
         RestaurantValidator.restaurantInputValidator(restaurantDto);
         return restaurantRepository.save(restaurantDto.toEntity()).toRestaurantResponseDto(0);
     }
 
+    // 식당 조회
     public List<RestaurantResponseDto> getRestaurant(int x, int y) {
         List<RestaurantResponseDto> restaurantResponseDtoList = new ArrayList<>();
         List<Restaurant> restaurantList = restaurantRepository.findAll();
 
         for (Restaurant restaurant : restaurantList) {
+            // 좌표를 통한 배달 가능지역 여부 판단
             if (DeliveryValidator.deliveryInputValidator(restaurant, x, y) == 1) {
                 RestaurantResponseDto restaurantResponseDto = restaurant.toRestaurantResponseDto(500 * Math.abs((restaurant.getX() + restaurant.getY()) - (x + y)));
                 restaurantResponseDtoList.add(restaurantResponseDto);
             }
         }
 
+        // 좌표를 통한 유효성 검사
         DeliveryValidator.userLocationValidator(x, y);
         return restaurantResponseDtoList;
     }

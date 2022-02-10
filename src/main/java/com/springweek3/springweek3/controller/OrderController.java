@@ -19,12 +19,14 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    // 음식 주문
     @PostMapping("/order/request")
     public ResponseEntity<OrderDto> addOrder(@RequestBody OrderRequestDto orderRequestDto) {
         return ResponseEntity.ok()
                 .body(orderService.addOrder(orderRequestDto));
     }
 
+    // 메뉴 조회
     @GetMapping("/orders")
     public List<OrderDto> getOrders() {
         return orderService.getOrders();

@@ -18,6 +18,7 @@ public class FoodController {
         this.foodService = foodService;
     }
 
+    // 음식 등록
     @PostMapping("/restaurant/{restaurantId}/food/register")
     public void addFoods(
             @PathVariable Long restaurantId,
@@ -26,6 +27,7 @@ public class FoodController {
         foodService.addFoods(restaurantId, foodDtoList);
     }
 
+    // 음식 조회
     @GetMapping("/restaurant/{restaurantId}/foods")
     public List<Food> getFoods(@PathVariable Long restaurantId) {
         return foodService.getFoods(restaurantId);

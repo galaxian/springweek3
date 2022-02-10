@@ -21,12 +21,14 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
+    // 식당 등록 (좌표 포함)
     @PostMapping("/restaurant/register")
     public ResponseEntity<RestaurantResponseDto> resisterRestaurant(@RequestBody RestaurantDto restaurantDto) {
         return ResponseEntity.ok()
                 .body(restaurantService.resisterRestaurant(restaurantDto));
     }
 
+    // 식당 조회 (좌표에 따른 배달비 할증 및 배달가능 지역 추가)
     @GetMapping("/restaurants")
     public ResponseEntity<List<RestaurantResponseDto>> getRestaurant(@RequestParam(value = "x", defaultValue = "0") int x, @RequestParam(value = "y", defaultValue = "0") int y) {
         return ResponseEntity.ok().body(restaurantService.getRestaurant(x, y));
